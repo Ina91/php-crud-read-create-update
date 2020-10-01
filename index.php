@@ -25,9 +25,14 @@ include __DIR__ .'/partials/home/server.php';
                             <td><?php echo $room['id']; ?></td>
                             <td><?php echo $room['room_number']; ?></td>
                             <td><?php echo $room['floor']; ?></td>
-                            <td><a href="#">VIEW</a></td>
+                            <td><a href="show.php?id=<?php echo $room['id'];?>">VIEW</a></td>
                             <td><a href="#">UPDATE</a></td>
-                            <td><a href="#">DELETE</a></td>
+                            <td>
+                                <form class="" action="partials/delete/server.php" method="post">
+                                    <input class="btn btn-danger" type="submit" name="" value="DELETE">
+                                    <input  type="hidden" name="id" value="<?php echo $room['id']; ?>">
+                                </form>
+                            </td>
                         </tr>
                     <?php } ?>
                 </tbody>
