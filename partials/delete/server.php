@@ -5,14 +5,16 @@ if (empty($_POST['id'])) {
     die('nessun id');
 }
 
-$id =$_POST['id'];
-$sql = "DELETE FROM stanze  WHERE id = $id" ;
-$result = $conn->query($sql);
+$id =$_POST['id']; // posso metterla anche dopo al bind_param
+$sql = "DELETE FROM stanze  WHERE id = ?" ;
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $id);
+$stmt -> execute();
 
-if ($result) {
-    echo "ok";
+if ($stmt && $stmt->affected_rows >0) {
+    header("Location: $basepath/index.php?roomId=$id");
 }else{
-    echo "non ho cancellato";
+    echo "errore durante la cancellazione";
 }
 
 $conn->close();
