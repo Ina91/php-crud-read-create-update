@@ -1,21 +1,21 @@
 <?php
 include __DIR__ . '/../database.php';
 
-if (empty($_POST['id'])) {
+if (empty($_GET['id'])) {          //controllo se è vuoto muore e non mi fa vedere nulla
     die('nessun id');
 }
 
-$id =$_POST['id']; // posso metterla anche dopo al bind_param
-$sql = "DELETE FROM stanze  WHERE id = ?" ;
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $id);
-$stmt -> execute();
+$id =$_GET['id'];
+$sql = "SELECT id,room_number, floor,beds FROM stanze  WHERE id=$id" ;
+$result = $conn->query($sql);
 
-if ($stmt && $stmt->affected_rows >0) {
-    header("Location: $basepath/index.php?roomId=$id");
-}else{
-    echo "errore durante la cancellazione";
+if ($result && $result->num_rows > 0) {
+    $row =$result->fetch_assoc();
+
+} elseif ($result) {
+    echo "0 results";
+} else {
+    echo "query error";
 }
-
 $conn->close();
 ?>
